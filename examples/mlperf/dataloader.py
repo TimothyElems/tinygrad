@@ -8,6 +8,7 @@ from tinygrad import dtypes, Tensor
 from tinygrad.helpers import getenv, prod, Context, round_up
 from collections import deque
 from multiprocessing import Queue, Process, shared_memory, connection, Lock, cpu_count, Pool
+import fickling
 
 class MyQueue:
   def __init__(self, multiple_readers=True, multiple_writers=True):
@@ -167,7 +168,7 @@ def batch_load_resnet(batch_size=64, val=False, shuffle=True, seed=None, pad_fir
 
 @functools.lru_cache(maxsize=128)
 def load_bert_file(fn:str) -> List[dict]:
-  with open(fn, "rb") as f: data = pickle.load(f)
+  with open(fn, "rb") as f: data = fickling.load(f)
   return data
 
 def process_batch_bert(data: List[dict]) -> dict[str, Tensor]:
